@@ -447,3 +447,4 @@ MonoBehaviour:
   mouseSensitivity: 1.5
   maxVerticalAngle: 60
   sinkSpeed: 0.75
+  smoothTime: 2

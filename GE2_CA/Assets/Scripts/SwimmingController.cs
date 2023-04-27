@@ -8,8 +8,10 @@ public class SwimmingController : MonoBehaviour
     public float mouseSensitivity = 1.5f; // The sensitivity of the mouse movement
     public float maxVerticalAngle = 60.0f; // The maximum vertical angle the camera can look
     public float sinkSpeed = 0.75f; // The speed at which the Player sinks down when not moving up or down
+    public float smoothTime = 2f; // The smooth time for camera movement
 
     private Vector2 currentRotation; // The current rotation of the camera
+    private Vector3 currentVelocity; // The current velocity of the camera
 
     void Start()
     {
@@ -22,7 +24,7 @@ public class SwimmingController : MonoBehaviour
         // The following block of code moves the camera based on input
         float moveForwardBackward = Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime;
         float moveLeftRight = Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime;
-        float moveUpDown = Input.GetKey(KeyCode.Space) ? movementSpeed * Time.deltaTime : Input.GetKey(KeyCode.LeftShift) ? -movementSpeed * Time.deltaTime : -sinkSpeed * Time.deltaTime;
+        float moveUpDown = 0;
 
         // Disable sinking if player is moving forward/backward or strafing left/right
         if (moveForwardBackward != 0 || moveLeftRight != 0)
@@ -34,21 +36,25 @@ public class SwimmingController : MonoBehaviour
             sinkSpeed = 0.5f;
         }
 
-        //// Move the camera up or down based on input
-        //if (Input.GetKey(KeyCode.Space))
-        //{
-        //    upDown = speed * Time.deltaTime;
-        //}
-        //else if (Input.GetKey(KeyCode.LeftShift))
-        //{
-        //    upDown = -speed * Time.deltaTime;
-        //}
-        //else
-        //{
-        //    upDown = -sinkSpeed * Time.deltaTime;
-        //}
+        // Move the camera up or down based on input
+        if (Input.GetKey(KeyCode.Space))
+        {
+            moveUpDown = movementSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveUpDown = -movementSpeed * Time.deltaTime;
+        }
+        else
+        {
+            moveUpDown = -sinkSpeed * Time.deltaTime;
+        }
 
         transform.Translate(moveLeftRight, moveUpDown, moveForwardBackward);
+
+        // Gradually slow down the Player's movement when the Player releases input keys
+        Vector3 targetPosition = transform.position + new Vector3(moveLeftRight, moveUpDown, moveForwardBackward);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
 
         // The following block of code rotates the camera based on mouse input
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
