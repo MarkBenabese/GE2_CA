@@ -4,36 +4,27 @@ using UnityEngine;
 
 public class FishController : MonoBehaviour
 {
-    public float swimSpeed = 2f; // The speed at which the fish swims forward
-    public float turnSpeed = 90f; // The maximum angle the fish can turn per frame
-    public float maxTurnSpeed = 80f; // The maximum turn speed of the fish
+    public float moveSpeed = 2f; // The speed at which the fish moves
+    public string aquariumTag = "Aquarium"; // The tag of the objects to detect collisions with
 
-    private Quaternion targetRotation;
+    private Rigidbody rb; // The fish's Rigidbody component
 
     void Start()
     {
-        // Initialize the target rotation to the current rotation
-        targetRotation = transform.rotation;
+        // Get the fish's Rigidbody component
+        rb = GetComponent<Rigidbody>();
+
+        // Set the fish's velocity to move in its local negative X-axis
+        rb.velocity = -transform.right * moveSpeed;
     }
 
-    void Update()
+    void OnCollisionEnter(Collision collision)
     {
-        // Move the fish forward in its local space
-        transform.Translate(Vector3.forward * swimSpeed * Time.deltaTime, Space.Self);
-
-        // Generate a random angle to turn the fish
-        float turnAngle = Random.Range(-maxTurnSpeed, maxTurnSpeed);
-
-        // Get the current forward direction of the fish
-        Vector3 currentForward = transform.forward;
-
-        // Calculate the new forward direction of the fish after the turn
-        Vector3 newForward = Quaternion.AngleAxis(turnAngle, Vector3.up) * currentForward;
-
-        // Calculate the target rotation towards the new forward direction
-        targetRotation = Quaternion.LookRotation(newForward, transform.up);
-
-        // Smoothly rotate the fish towards the target rotation
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime / Quaternion.Angle(transform.rotation, targetRotation));
+        // Check if the collision was with an object tagged "Aquarium"
+        if (collision.gameObject.CompareTag(aquariumTag))
+        {
+            // Change the fish's direction to a random direction
+            rb.velocity = Random.insideUnitSphere * moveSpeed;
+        }
     }
 }
