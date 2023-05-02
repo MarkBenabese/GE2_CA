@@ -16,7 +16,9 @@ LINK: https://www.youtube.com/watch?v=eRcqb6GfKI0
 # Instructions
 
 Move Forward/Back - W & S Keys
+
 Strafe Left/Right - A & D Keys
+
 Swim Up/Down - Shift & Space Keys
 
 # List of Classes / Assets
