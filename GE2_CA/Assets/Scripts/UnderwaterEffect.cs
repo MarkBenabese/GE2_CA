@@ -28,6 +28,7 @@ public class UnderwaterEffect : MonoBehaviour
         originalFogEndDistance = RenderSettings.fogEndDistance;
     }
 
+    // The following blocks of code checks if the player is under water level and renders the fog settings if they are under water or not and proceeds to call out the corresponding functions
     void Update()
     {
         if (transform.position.y < underwaterLevel)
