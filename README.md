@@ -23,7 +23,20 @@ Swim Up/Down - Shift & Space Keys
 
 # List of Classes / Assets
 
-| Script / Assets | Source |
+| Script | Source |
 | ------------- | ------------- |
-| FishSpawner.cs  | Self written  |
-| Flock.cs  | Self written  |
+| FishSpawner.cs | Self written |
+| Flock.cs | Self written |
+| FlockUnit.cs | Self written |
+| PerlinNoise.cs | Self written |
+| Retry.cs | Self written |
+| SeekBehavour.cs | Self written |
+| SwimmingController.cs | Self written |
+| UnderwaterEffect.cs | Self written |
+
+| Script | Source |
+| ------------- | ------------- |
+| Aquarium | Self made |
+| Shark and Small Fish | https://assetstore.unity.com/packages/3d/characters/animals/fish/fish-polypack-202232 |
+| FlockUnit.cs | Self written |
+| PerlinNoise.cs | Self written |
